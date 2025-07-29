@@ -7,6 +7,12 @@ import string
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer, WordNetLemmatizer
 from sklearn.feature_extraction.text import CountVectorizer
+import yaml
+
+
+with open("params.yaml", "r") as file:
+    params = yaml.safe_load(file)
+max_features = params['feature_engg']['max_features']
 
 train_data = pd.read_csv("data/processed/train.csv").dropna(subset=['text'])
 test_data = pd.read_csv("data/processed/test.csv").dropna(subset=['text'])
@@ -15,7 +21,7 @@ y_train = train_data['sentiment'].values
 
 X_test = test_data['text'].values
 y_test = test_data['sentiment'].values
-vectorizer = CountVectorizer()
+vectorizer = CountVectorizer(max_features=max_features)
 
 # Fit the vectorizer on the training data and transform it to feature vectors
 X_train_bow = vectorizer.fit_transform(X_train)
