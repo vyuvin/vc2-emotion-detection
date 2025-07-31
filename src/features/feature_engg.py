@@ -6,7 +6,7 @@ import nltk
 import string
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer, WordNetLemmatizer
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 import yaml
 
 
@@ -21,19 +21,18 @@ y_train = train_data['sentiment'].values
 
 X_test = test_data['text'].values
 y_test = test_data['sentiment'].values
-vectorizer = CountVectorizer(max_features=max_features)
-
+vectorizer = TfidfVectorizer(max_features=max_features)
 # Fit the vectorizer on the training data and transform it to feature vectors
-X_train_bow = vectorizer.fit_transform(X_train)
+X_train_Tfidf = vectorizer.fit_transform(X_train)
 
 # Transform the test data using the same vectorizer (do not fit again)
-X_test_bow = vectorizer.transform(X_test)
-train_df = pd.DataFrame(X_train_bow.toarray())
+X_test_Tfidf = vectorizer.transform(X_test)
+train_df = pd.DataFrame(X_train_Tfidf.toarray())
 train_df['sentiment'] = y_train
 
-test_df = pd.DataFrame(X_test_bow.toarray())
+test_df = pd.DataFrame(X_test_Tfidf.toarray())
 test_df['sentiment'] = y_test
 
 os.makedirs("data/interim", exist_ok=True)  # Ensure the directory exists
-train_df.to_csv("data/interim/train_bow.csv", index=False)
-test_df.to_csv("data/interim/test_bow.csv", index=False)
+train_df.to_csv("data/interim/train_tfidf.csv", index=False)
+test_df.to_csv("data/interim/test_tfidf.csv", index=False)

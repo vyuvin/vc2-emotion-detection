@@ -11,7 +11,7 @@ n_estimators = params['modelling']['n_estimators']
 max_depth = params['modelling']['max_depth']
 
 from sklearn.ensemble import RandomForestClassifier
-train_data = pd.read_csv("data/interim/train_bow.csv")
+train_data = pd.read_csv("data/interim/train_tfidf.csv")
 
 x_train = train_data.drop(columns=['sentiment']).values
 y_train = train_data['sentiment'].values
